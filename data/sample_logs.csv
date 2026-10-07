@@ -1,0 +1,21 @@
+timestamp,user,device,src_ip,app,event_type,target,geo
+2026-03-02 09:01:12,alice,LAP-A1,10.0.1.11,vpn,login,-,IN
+2026-03-02 09:05:40,alice,LAP-A1,10.0.1.11,fileserver,file_access,/hr/policies.pdf,IN
+2026-03-02 09:30:05,bob,LAP-B1,10.0.1.12,vpn,login,-,IN
+2026-03-02 09:42:51,bob,LAP-B1,10.0.1.12,fileserver,file_access,/finance/q1_report.xlsx,IN
+2026-03-02 10:15:22,carol,LAP-C1,10.0.1.13,vpn,login,-,IN
+2026-03-02 10:20:09,carol,LAP-C1,10.0.1.13,email,email_send,-,IN
+2026-03-02 17:45:00,alice,LAP-A1,10.0.1.11,vpn,logout,-,IN
+2026-03-03 09:02:44,alice,LAP-A1,10.0.1.11,vpn,login,-,IN
+2026-03-03 09:31:18,bob,LAP-B1,10.0.1.12,vpn,login,-,IN
+2026-03-03 10:12:55,carol,LAP-C1,10.0.1.13,vpn,login,-,IN
+2026-03-03 11:10:03,bob,LAP-B1,10.0.1.12,fileserver,file_access,/finance/q1_report.xlsx,IN
+2026-03-03 15:20:41,carol,LAP-C1,10.0.1.13,fileserver,file_access,/sales/leads.csv,IN
+2026-03-04 02:14:09,bob,UNK-X9,185.220.101.5,vpn,login,-,RU
+2026-03-04 02:19:33,bob,UNK-X9,185.220.101.5,fileserver,file_access,/hr/salary_all.xlsx,RU
+2026-03-04 02:21:50,bob,UNK-X9,185.220.101.5,fileserver,file_access,/finance/board_minutes.pdf,RU
+2026-03-04 02:26:17,bob,UNK-X9,185.220.101.5,endpoint,usb_mount,USB-8GB,RU
+2026-03-04 02:28:02,bob,UNK-X9,185.220.101.5,endpoint,bulk_copy,USB-8GB (412 files),RU
+2026-03-04 09:03:10,alice,LAP-A1,10.0.1.11,vpn,login,-,IN
+2026-03-04 09:29:47,bob,LAP-B1,10.0.1.12,vpn,login,-,IN
+2026-03-04 10:14:30,carol,LAP-C1,10.0.1.13,vpn,login,-,IN
