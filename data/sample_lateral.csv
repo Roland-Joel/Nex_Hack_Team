@@ -1,0 +1,8 @@
+timestamp,user,device,src_ip,app,event_type,target,geo
+2026-03-02 09:00:00,dave,LAP-D1,10.0.1.14,vpn,login,-,IN
+2026-03-02 09:20:00,eve,LAP-E1,10.0.1.15,vpn,login,-,IN
+2026-03-03 09:05:00,dave,LAP-D1,10.0.1.14,vpn,login,-,IN
+2026-03-03 09:25:00,eve,LAP-E1,10.0.1.15,vpn,login,-,IN
+2026-03-05 02:10:00,dave,UNK-X9,185.220.101.5,vpn,login,-,RU
+2026-03-05 02:25:00,eve,SRV-1,185.220.101.5,vpn,login,-,RU
+2026-03-05 02:40:00,eve,SRV-1,185.220.101.5,admin,priv_change,admin_group,RU

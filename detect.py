@@ -4,7 +4,7 @@ import json
 from datetime import timedelta
 
 WINDOW = timedelta(hours=72)  # flagged events closer than this get linked (long enough for slow-and-low)
-STAGE_ORDER = ["initial_access", "privilege_escalation", "lateral_movement", "collection", "exfiltration"]
+STAGE_ORDER = ["initial_access", "lateral_movement", "privilege_escalation", "collection", "exfiltration"]
 
 ACTIONS = {
     "initial_access": "Force password reset and revoke active sessions for {user}",
@@ -57,18 +57,28 @@ def flag_events(df, baselines):
     return flagged
 
 def group_events(flagged):
-    """Link flagged events of the same user that are within WINDOW of each other."""
-    groups, last = [], {}
-    for ev in flagged:
-        u = ev["user"]
-        if u in last and ev["timestamp"] - last[u]["end"] <= WINDOW:
-            last[u]["events"].append(ev)
-            last[u]["end"] = ev["timestamp"]
-        else:
-            g = {"user": u, "events": [ev], "end": ev["timestamp"]}
-            groups.append(g)
-            last[u] = g
-    return groups
+    """Link flagged events that share a user, device or IP within WINDOW."""
+    n = len(flagged)
+    parent = list(range(n))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            a, b = flagged[i], flagged[j]
+            if b["timestamp"] - a["timestamp"] > WINDOW:
+                break
+            if a["user"] == b["user"] or a["device"] == b["device"] or a["src_ip"] == b["src_ip"]:
+                parent[find(i)] = find(j)
+
+    groups = {}
+    for i, ev in enumerate(flagged):
+        groups.setdefault(find(i), []).append(ev)
+    return [{"users": sorted({e["user"] for e in evs}), "events": evs} for evs in groups.values()]
 
 def tag_stages(events):
     seen_login = False
@@ -100,7 +110,8 @@ def to_incident(i, g):
     risk = min(100, len(stages) * 20 + sum(len(e["reasons"]) for e in evs))
     return {
         "incident_id": f"INC-{i:03d}",
-        "user": g["user"],
+        "user": g["users"][0],
+        "users": g["users"],
         "start": str(evs[0]["timestamp"]),
         "end": str(evs[-1]["timestamp"]),
         "stages": stages,
@@ -109,7 +120,7 @@ def to_incident(i, g):
         "risk_score": risk,
         "events": [{"timestamp": str(e["timestamp"]), "event_type": e["event_type"],
                     "target": e["target"], "stage": e["stage"], "reasons": e["reasons"]} for e in evs],
-        "recommended_actions": [ACTIONS[s].format(user=g["user"]) for s in stages],
+        "recommended_actions": [ACTIONS[s].format(user=", ".join(g["users"])) for s in stages],
     }
 
 def detect(path):
@@ -128,5 +139,5 @@ if __name__ == "__main__":
     with open("outputs/incidents.json", "w") as f:
         json.dump(incidents, f, indent=2)
     for inc in incidents:
-        print(f"{inc['incident_id']} user={inc['user']} risk={inc['risk_score']} stages={' > '.join(inc['stages'])}")
+        print(f"{inc['incident_id']} users={','.join(inc['users'])} risk={inc['risk_score']} stages={' > '.join(inc['stages'])}")
     print(f"\n{len(incidents)} incident(s) raised")

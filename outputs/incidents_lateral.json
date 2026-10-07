@@ -1,0 +1,65 @@
+[
+  {
+    "incident_id": "INC-001",
+    "user": "dave",
+    "users": [
+      "dave",
+      "eve"
+    ],
+    "start": "2026-03-05 02:10:00",
+    "end": "2026-03-05 02:40:00",
+    "stages": [
+      "initial_access",
+      "lateral_movement",
+      "privilege_escalation"
+    ],
+    "devices": [
+      "SRV-1",
+      "UNK-X9"
+    ],
+    "ips": [
+      "185.220.101.5"
+    ],
+    "risk_score": 69,
+    "events": [
+      {
+        "timestamp": "2026-03-05 02:10:00",
+        "event_type": "login",
+        "target": "-",
+        "stage": "initial_access",
+        "reasons": [
+          "new country (RU)",
+          "new device (UNK-X9)",
+          "off-hours (2:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-05 02:25:00",
+        "event_type": "login",
+        "target": "-",
+        "stage": "lateral_movement",
+        "reasons": [
+          "new country (RU)",
+          "new device (SRV-1)",
+          "off-hours (2:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-05 02:40:00",
+        "event_type": "priv_change",
+        "target": "admin_group",
+        "stage": "privilege_escalation",
+        "reasons": [
+          "new country (RU)",
+          "new device (SRV-1)",
+          "off-hours (2:00)"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Force password reset and revoke active sessions for dave, eve",
+      "Isolate the new devices dave, eve logged into",
+      "Review and roll back privilege changes for dave, eve"
+    ]
+  }
+]
