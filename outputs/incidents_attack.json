@@ -1,0 +1,253 @@
+[
+  {
+    "incident_id": "INC-001",
+    "user": "ivan2",
+    "users": [
+      "ivan2"
+    ],
+    "start": "2026-03-13 19:42:16",
+    "end": "2026-03-18 21:41:16",
+    "stages": [
+      "initial_access",
+      "collection",
+      "exfiltration",
+      "lateral_movement",
+      "privilege_escalation"
+    ],
+    "devices": [
+      "LAP-059",
+      "WS-NEW-041",
+      "WS-NEW-042",
+      "WS-NEW-043"
+    ],
+    "ips": [
+      "198.51.100.24",
+      "198.51.100.77",
+      "203.0.113.42"
+    ],
+    "risk_score": 100,
+    "title": "Suspected multi-stage attack involving ivan2",
+    "score": 100,
+    "events": [
+      {
+        "timestamp": "2026-03-13 19:42:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "login",
+        "target": "successful_login",
+        "geo": "RU",
+        "stage": "initial_access",
+        "reasons": [
+          "new country (RU)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 19:44:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "file_access",
+        "target": "/common/holiday_calendar.pdf",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "first-time file (/common/holiday_calendar.pdf)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 19:46:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "file_access",
+        "target": "/common/it_guidelines.pdf",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "first-time file (/common/it_guidelines.pdf)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 19:48:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "usb_mount",
+        "target": "USB-EXTERNAL-01",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "USB activity (usb_mount)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 19:50:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "bulk_copy",
+        "target": "USB-EXTERNAL-01",
+        "geo": "RU",
+        "stage": "exfiltration",
+        "reasons": [
+          "new country (RU)",
+          "USB activity (bulk_copy)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 20:01:16",
+        "user": "ivan2",
+        "device": "WS-NEW-041",
+        "src_ip": "203.0.113.42",
+        "app": "email",
+        "event_type": "login",
+        "target": "successful_login",
+        "geo": "IN",
+        "stage": "lateral_movement",
+        "reasons": [
+          "new device (WS-NEW-041)",
+          "off-hours (20:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 20:03:16",
+        "user": "ivan2",
+        "device": "WS-NEW-042",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "login",
+        "target": "successful_login",
+        "geo": "IN",
+        "stage": "lateral_movement",
+        "reasons": [
+          "new device (WS-NEW-042)",
+          "off-hours (20:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 20:05:16",
+        "user": "ivan2",
+        "device": "WS-NEW-043",
+        "src_ip": "203.0.113.42",
+        "app": "email",
+        "event_type": "login",
+        "target": "successful_login",
+        "geo": "IN",
+        "stage": "lateral_movement",
+        "reasons": [
+          "new device (WS-NEW-043)",
+          "off-hours (20:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-13 20:08:16",
+        "user": "ivan2",
+        "device": "WS-NEW-043",
+        "src_ip": "198.51.100.77",
+        "app": "email",
+        "event_type": "priv_change",
+        "target": "role=administrator",
+        "geo": "IN",
+        "stage": "privilege_escalation",
+        "reasons": [
+          "new device (WS-NEW-043)",
+          "off-hours (20:00)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-14 19:43:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "login",
+        "target": "successful_login",
+        "geo": "RU",
+        "stage": "lateral_movement",
+        "reasons": [
+          "new country (RU)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-15 22:41:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "file_access",
+        "target": "/common/holiday_calendar.pdf",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "off-hours (22:00)",
+          "first-time file (/common/holiday_calendar.pdf)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-17 00:41:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "file_access",
+        "target": "/common/it_guidelines.pdf",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "off-hours (0:00)",
+          "first-time file (/common/it_guidelines.pdf)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-17 23:41:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "usb_mount",
+        "target": "USB-EXTERNAL-02",
+        "geo": "RU",
+        "stage": "collection",
+        "reasons": [
+          "new country (RU)",
+          "off-hours (23:00)",
+          "USB activity (usb_mount)"
+        ]
+      },
+      {
+        "timestamp": "2026-03-18 21:41:16",
+        "user": "ivan2",
+        "device": "LAP-059",
+        "src_ip": "198.51.100.24",
+        "app": "email",
+        "event_type": "bulk_copy",
+        "target": "USB-EXTERNAL-02",
+        "geo": "RU",
+        "stage": "exfiltration",
+        "reasons": [
+          "new country (RU)",
+          "off-hours (21:00)",
+          "USB activity (bulk_copy)"
+        ]
+      }
+    ],
+    "recommended_actions": [
+      "Force password reset and revoke active sessions for ivan2",
+      "Audit files accessed by ivan2 and block removable media",
+      "Check what was copied, treat that data as leaked, escalate to security team",
+      "Isolate the new devices ivan2 logged into",
+      "Review and roll back privilege changes for ivan2"
+    ]
+  }
+]

@@ -13,7 +13,8 @@ ACTIONS = {
     "collection": "Audit files accessed by {user} and block removable media",
     "exfiltration": "Check what was copied, treat that data as leaked, escalate to security team",
 }
-BASELINE_END = "2026-03-04"  # events before this date define "normal" (for real data, use the first ~7 days)
+LOG_COLS = ["timestamp", "user", "device", "src_ip", "app", "event_type", "target", "geo"]
+BASELINE_END = sys.argv[3] if len(sys.argv) > 3 else "2026-03-09"
 USB_EVENTS = {"usb_mount", "bulk_copy"}
 
 def load(path):
@@ -103,9 +104,11 @@ def to_incident(i, g):
     for e in evs:
         if e["stage"] != "unknown" and e["stage"] not in stages:
             stages.append(e["stage"])
-    idx = [STAGE_ORDER.index(s) for s in stages]
-    in_order = idx == sorted(idx)
-    if len(stages) < 2 or not in_order:   # the alert gate
+    seq = [STAGE_ORDER.index(e["stage"]) for e in evs if e["stage"] != "unknown"]
+    in_order = any(a < b for a, b in zip(seq, seq[1:]))   # at least one forward step
+    strong = any(r.startswith(("new country", "off-hours", "USB")) or e["event_type"] == "priv_change"
+        for e in evs for r in e["reasons"])
+    if len(stages) < 2 or not in_order or not strong:   # the alert gate
         return None
     risk = min(100, len(stages) * 20 + sum(len(e["reasons"]) for e in evs))
     return {
@@ -118,8 +121,9 @@ def to_incident(i, g):
         "devices": sorted({e["device"] for e in evs}),
         "ips": sorted({e["src_ip"] for e in evs}),
         "risk_score": risk,
-        "events": [{"timestamp": str(e["timestamp"]), "event_type": e["event_type"],
-                    "target": e["target"], "stage": e["stage"], "reasons": e["reasons"]} for e in evs],
+        "title": f"Suspected multi-stage attack involving {', '.join(g['users'])}",
+        "score": risk,
+        "events": [{**{c: str(e[c]) for c in LOG_COLS}, "stage": e["stage"], "reasons": e["reasons"]} for e in evs],
         "recommended_actions": [ACTIONS[s].format(user=", ".join(g["users"])) for s in stages],
     }
 
@@ -134,9 +138,10 @@ def detect(path):
     return incidents
 
 if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else "data/sample_logs.csv"
+    path = sys.argv[1] if len(sys.argv) > 1 else "data/clean_logs.csv"
+    out = sys.argv[2] if len(sys.argv) > 2 else "outputs/incidents.json"
     incidents = detect(path)
-    with open("outputs/incidents.json", "w") as f:
+    with open(out, "w") as f:
         json.dump(incidents, f, indent=2)
     for inc in incidents:
         print(f"{inc['incident_id']} users={','.join(inc['users'])} risk={inc['risk_score']} stages={' > '.join(inc['stages'])}")

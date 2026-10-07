@@ -1,0 +1,184 @@
+{
+  "source_file": "C:\\Users\\rolan\\Nex_Hack_Team\\data\\clean_logs.csv",
+  "output_file": "C:\\Users\\rolan\\Nex_Hack_Team\\data\\attack_logs.csv",
+  "schema": [
+    "timestamp",
+    "user",
+    "device",
+    "src_ip",
+    "app",
+    "event_type",
+    "target",
+    "geo"
+  ],
+  "attack_event_count": 14,
+  "attacks": {
+    "attack_1_account_takeover_data_theft": {
+      "description": "Account takeover: foreign-country login, unusual file access, USB mount, bulk copy.",
+      "user": "ivan2",
+      "event_count": 5,
+      "events": [
+        {
+          "timestamp": "2026-03-13 19:42:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "login",
+          "target": "successful_login",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-13 19:44:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "file_access",
+          "target": "/common/holiday_calendar.pdf",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-13 19:46:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "file_access",
+          "target": "/common/it_guidelines.pdf",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-13 19:48:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "usb_mount",
+          "target": "USB-EXTERNAL-01",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-13 19:50:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "bulk_copy",
+          "target": "USB-EXTERNAL-01",
+          "geo": "RU"
+        }
+      ]
+    },
+    "attack_2_lateral_movement_privilege_change": {
+      "description": "One user authenticates on several previously unseen devices within minutes, then privilege changes.",
+      "user": "ivan2",
+      "event_count": 4,
+      "events": [
+        {
+          "timestamp": "2026-03-13 20:01:16",
+          "user": "ivan2",
+          "device": "WS-NEW-041",
+          "src_ip": "203.0.113.42",
+          "app": "email",
+          "event_type": "login",
+          "target": "successful_login",
+          "geo": "IN"
+        },
+        {
+          "timestamp": "2026-03-13 20:03:16",
+          "user": "ivan2",
+          "device": "WS-NEW-042",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "login",
+          "target": "successful_login",
+          "geo": "IN"
+        },
+        {
+          "timestamp": "2026-03-13 20:05:16",
+          "user": "ivan2",
+          "device": "WS-NEW-043",
+          "src_ip": "203.0.113.42",
+          "app": "email",
+          "event_type": "login",
+          "target": "successful_login",
+          "geo": "IN"
+        },
+        {
+          "timestamp": "2026-03-13 20:08:16",
+          "user": "ivan2",
+          "device": "WS-NEW-043",
+          "src_ip": "198.51.100.77",
+          "app": "email",
+          "event_type": "priv_change",
+          "target": "role=administrator",
+          "geo": "IN"
+        }
+      ]
+    },
+    "attack_3_slow_account_takeover_data_theft": {
+      "description": "Slow account takeover/data theft over five days: foreign login, unusual file access, USB mount, bulk copy.",
+      "user": "ivan2",
+      "event_count": 5,
+      "events": [
+        {
+          "timestamp": "2026-03-14 19:43:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "login",
+          "target": "successful_login",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-15 22:41:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "file_access",
+          "target": "/common/holiday_calendar.pdf",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-17 00:41:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "file_access",
+          "target": "/common/it_guidelines.pdf",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-17 23:41:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "usb_mount",
+          "target": "USB-EXTERNAL-02",
+          "geo": "RU"
+        },
+        {
+          "timestamp": "2026-03-18 21:41:16",
+          "user": "ivan2",
+          "device": "LAP-059",
+          "src_ip": "198.51.100.24",
+          "app": "email",
+          "event_type": "bulk_copy",
+          "target": "USB-EXTERNAL-02",
+          "geo": "RU"
+        }
+      ]
+    }
+  },
+  "notes": [
+    "Ground truth lists the exact injected event rows under each attack.",
+    "Synthetic source IPs are reserved documentation addresses.",
+    "The selected user and inferred file targets are derived from the input logs where possible.",
+    "This is a labeled test dataset; do not use these synthetic events as real incident evidence."
+  ]
+}
