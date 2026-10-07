@@ -296,34 +296,34 @@ def graph_html(incident: Dict[str, Any], evidence: List[Dict[str, Any]], out_fil
     {
       "nodes": {"font": {"size": 16}},
       "edges": {"arrows": {"to": {"enabled": true}}},
-      "physics": {"stabilization": true}
+      "physics": {"solver": "repulsion", "repulsion": {"nodeDistance": 220, "springLength": 220, "centralGravity": 0.05}, "stabilization": {"iterations": 300}}
     }
     """)
 
     seen = set()
 
-    def add_node(node_id: str, label: str, shape: str = "dot"):
+    def add_node(node_id: str, label: str, shape: str = "dot", color: str = "#97c2fc"):
         if node_id not in seen:
-            net.add_node(node_id, label=label, shape=shape)
+            net.add_node(node_id, label=label, shape=shape, color=color)
             seen.add(node_id)
 
     incident_id = str(incident.get("incident_id", "incident"))
-    add_node(incident_id, incident_id, "diamond")
+    add_node(incident_id, incident_id, "diamond", "#e74c3c")
 
     previous = incident_id
     for i, event in enumerate(evidence, start=1):
         row = event.get("evidence") or event
         event_id = f"{incident_id}-event-{i}"
-        label = f"{row.get('event_type', 'event')}\\n{row.get('timestamp', '')}"
-        add_node(event_id, label, "box")
+        label = f"{row.get('event_type', 'event')}\n{row.get('timestamp', '')}"
+        add_node(event_id, label, "box", "#f9e79f")
         net.add_edge(previous, event_id)
         previous = event_id
-
+        colors = {"user": "#e74c3c", "device": "#58d68d", "src_ip": "#af7ac5"}
         for field, shape in (("user", "ellipse"), ("device", "box"), ("src_ip", "dot")):
             value = row.get(field)
             if value:
                 entity_id = f"{field}:{value}"
-                add_node(entity_id, f"{field}: {value}", shape)
+                add_node(entity_id, f"{field}: {value}", shape, colors[field])
                 net.add_edge(event_id, entity_id)
 
     net.write_html(str(out_file), open_browser=False)
